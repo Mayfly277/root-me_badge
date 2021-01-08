@@ -2,14 +2,13 @@
 
 class User
 {
-    public $nick = 'mayfly';
-    public $place = '65/203487';
-    public $rank = 'programmer';
-    public $status = 'Premium';
-    public $challenges = '300/393';
-    //public $profile_picture = 'auton58274.jpg'; // das
-    public $profile_picture = 'auton69804.png'; // mayfly
-    public $points = '10030';
+    public $nick = 'nickname';
+    public $place = '203487/203487';
+    public $rank = 'newbie';
+    public $status = 'Visitor';
+    public $challenges = '0/393';
+    public $profile_picture = 'auton0.png';
+    public $points = '0';
 
     /**
      * User constructor.
@@ -62,6 +61,18 @@ class Theme
         $this->font = 'assets/BebasNeue-Regular.ttf';
     }
 
+    public function setTheme($theme){
+        switch ($theme){
+            case 'white':
+                $this->whiteTheme();
+                break;
+            case 'black':
+                $this->blackTheme();
+                break;
+            default:
+                $this->whiteTheme();
+        }
+    }
     public function whiteTheme(): void
     {
         $this->bg_color = self::white;
@@ -175,9 +186,19 @@ class Badge
 
 // launch
 $theme = new Theme();
-$theme->blackTheme();
-//$user = new User('mayfly','65/203581','programmer','Premium','300/393','profile_picture/auton69804.png','10030');
-//$user = new User('das','29/203581','hacker','Admin','331/393','profile_picture/auton58274.jpg','11895');
-$user = new User('Jrmbt','6/203581','elite','Redactor','383/393','profile_picture/auton79281.jpg','16305');
 $badge = new Badge();
-$badge->generate($theme, $user, 'test.png');
+
+$themes = ['white', 'black'];
+foreach ($themes as $theme_value){
+    $theme->setTheme($theme_value);
+    $user = new User('nickname','203487/203487','newbie','Visitor','0/393','profile_picture/auton0.png','0');
+    $badge->generate($theme, $user, 'result/nickname'.$theme_value.'.png');
+    $user = new User('eilco','336/203582','lamer','Visitor','204/393','profile_picture/auton29742.jpg','6240');
+    $badge->generate($theme, $user, 'result/eilco_'.$theme_value.'.png');
+    $user = new User('mayfly','65/203581','programmer','Premium','300/393','profile_picture/auton69804.png','10030');
+    $badge->generate($theme, $user, 'result/mayfly_'.$theme_value.'.png');
+    $user = new User('das','29/203581','hacker','Admin','331/393','profile_picture/auton58274.jpg','11895');
+    $badge->generate($theme, $user, 'result/das_'.$theme_value.'.png');
+    $user = new User('Jrmbt','6/203581','elite','Redactor','383/393','profile_picture/auton79281.jpg','16305');
+    $badge->generate($theme, $user, 'result/jrmbt_'.$theme_value.'.png');
+}
