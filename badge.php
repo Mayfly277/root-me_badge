@@ -110,13 +110,13 @@ class Theme
 
 class Badge
 {
-    public const WIDTH = 500;
-    public const HEIGHT = 140;
-    public const PADDING = 10;
-    public const LINE_SPACE = 10;
+    public const WIDTH = 400;
+    public const HEIGHT = 120;
 
     public function generate(Theme $theme, User $user, $file_result): void
     {
+        $padding = (int) self::HEIGHT / 14;
+        $line_space = (int) self::HEIGHT / 14;
         $image = imagecreatetruecolor(self::WIDTH, self::HEIGHT);
 
         // allocate color
@@ -136,27 +136,25 @@ class Badge
         imagerectangle($image, 0, 0, self::WIDTH-1 , self::HEIGHT -1 , $border_color);
 
         // draw profile picture
-        $width = $height = (int)self::HEIGHT - self::PADDING * 2;
-        $image = $this->draw_profile_picture($image, $user, $height, $width, self::PADDING, $img_border_color);
+        $width = $height = (int)self::HEIGHT - $padding * 2;
+        $image = $this->draw_profile_picture($image, $user, $height, $width, $padding, $img_border_color);
 
         // draw user infos
-        $x = self::PADDING * 2 + $width;
-        $y = self::PADDING;
-        $line_space = self::LINE_SPACE;
-        $nick_size = 20;
-        $font_default_size = 13;
+        $x = $padding * 2 + $width;
+        $y = $padding;
+        $nick_size = (int) self::HEIGHT / 7;
+        $font_default_size = (int) self::HEIGHT / 11;
         imagettftext($image, $nick_size, 0.0, $x, $y += $nick_size, $nick_color, $theme->font, $user->nick);
-        imagettftext($image, $font_default_size, 0.0, $x, $y += self::LINE_SPACE + $font_default_size, $status_color, $theme->font, $user->status);
-        imagettftext($image, $font_default_size, 0.0, $x, $y += self::LINE_SPACE + $font_default_size, $rank_color, $theme->font, "Rank : " . $user->rank);
-        imagettftext($image, $font_default_size, 0.0, $x, $y + self::LINE_SPACE + $font_default_size, $challenge_color, $theme->font, str_repeat("  ",strlen("Score : " . $user->points. ' Points')) . "       Challenges : " . $user->challenges . "");
-        imagettftext($image, $font_default_size, 0.0, $x, $y += self::LINE_SPACE + $font_default_size, $points_color, $theme->font, "Score : " . $user->points . ' Points');
-        imagettftext($image, $font_default_size, 0.0, $x, $y += self::LINE_SPACE + $font_default_size, $place_color, $theme->font, "Place : " . $user->place);
-//        imagestring($image, $font, $x, $y = $y + $line_space, $user->challenges, $challenge_color);
+        imagettftext($image, $font_default_size, 0.0, $x, $y += $line_space + $font_default_size, $status_color, $theme->font, $user->status);
+        imagettftext($image, $font_default_size, 0.0, $x, $y += $line_space + $font_default_size, $rank_color, $theme->font, "Rank : " . $user->rank);
+        imagettftext($image, $font_default_size, 0.0, $x, $y + $line_space + $font_default_size, $challenge_color, $theme->font, str_repeat("  ",strlen("Score : " . $user->points. ' Points')) . "       Challenges : " . $user->challenges . "");
+        imagettftext($image, $font_default_size, 0.0, $x, $y += $line_space + $font_default_size, $points_color, $theme->font, "Score : " . $user->points . ' Points');
+        imagettftext($image, $font_default_size, 0.0, $x, $y += $line_space + $font_default_size, $place_color, $theme->font, "Place : " . $user->place);
 
         // draw RM logo
         $rm_logo = imagecreatefrompng($theme->rm_logo);
         [$rm_w, $rm_h] = getimagesize($theme->rm_logo);
-        imagecopy($image, $rm_logo, (int)self::WIDTH - self::PADDING - $rm_w, self::PADDING, 0, 0, $rm_w, $rm_h);
+        imagecopy($image, $rm_logo, (int)self::WIDTH - $padding - $rm_w, $padding, 0, 0, $rm_w, $rm_h);
         imagepng($image, $file_result);
     }
 
