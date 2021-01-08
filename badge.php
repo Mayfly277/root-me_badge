@@ -34,6 +34,7 @@ class User
 
 class Theme
 {
+    public $border_color;
     public $bg_color;
     public $nick_color;
     public $place_color;
@@ -76,6 +77,7 @@ class Theme
     }
     public function whiteTheme(): void
     {
+        $this->border_color = self::black;
         $this->bg_color = self::white;
         $this->nick_color = self::black;
         $this->place_color = self::black;
@@ -91,6 +93,7 @@ class Theme
 
     public function blackTheme(): void
     {
+        $this->border_color = self::white;
         $this->bg_color = self::black;
         $this->nick_color = self::white;
         $this->place_color = self::white;
@@ -118,6 +121,7 @@ class Badge
 
         // allocate color
         $bg_color = imagecolorallocate($image, $theme->bg_color[0], $theme->bg_color[1], $theme->bg_color[2]);
+        $border_color = imagecolorallocate($image, $theme->border_color[0], $theme->border_color[1], $theme->border_color[2]);
         $img_border_color = imagecolorallocate($image, $theme->status_color[$user->status][0], $theme->status_color[$user->status][1], $theme->status_color[$user->status][2]);
         $nick_color = imagecolorallocate($image, $theme->nick_color[0], $theme->nick_color[1], $theme->nick_color[2]);
         $place_color = imagecolorallocate($image, $theme->place_color[0], $theme->place_color[1], $theme->place_color[2]);
@@ -128,6 +132,8 @@ class Badge
 
         // background color
         imagefill($image, 0, 0, $bg_color);
+        // border
+        imagerectangle($image, 0, 0, self::WIDTH-1 , self::HEIGHT -1 , $border_color);
 
         // draw profile picture
         $width = $height = (int)self::HEIGHT - self::PADDING * 2;
