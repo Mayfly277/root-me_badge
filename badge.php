@@ -50,6 +50,7 @@ class Theme
     public const white = [255, 255, 255];
     public const red = [222, 43, 15];
     public const green = [0, 204, 0];
+    public const purple = [133, 72 , 196];
     public const grey = [118, 118, 118];
 
     /**
@@ -84,7 +85,7 @@ class Theme
         $this->status_color = ['Visitor' => self::green,
             'Redactor' => self::orange,
             'Premium' => self::red,
-            'Admin' => self::grey];
+            'Admin' => self::purple];
         $this->rm_logo = 'assets/skull-black.png';
     }
 
@@ -99,7 +100,7 @@ class Theme
         $this->status_color = ['Visitor' => self::green,
             'Redactor' => self::orange,
             'Premium' => self::red,
-            'Admin' => self::grey];
+            'Admin' => self::purple];
         $this->rm_logo = 'assets/skull-white.png';
     }
 }
